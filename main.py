@@ -123,6 +123,7 @@ async def test_endpoint():
     return {
         "message": "Backend is working! Database connection should be fixed now.",
         "frontend_connection": "This proves your Vercel frontend can reach the Railway backend",
+        "database_url": os.getenv("SUPABASE_DB_URL", "NOT_SET"),
         "timestamp": datetime.now().timestamp()
     }
 
