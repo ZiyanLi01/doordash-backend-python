@@ -118,6 +118,14 @@ async def root():
         "timestamp": datetime.now().timestamp()
     }
 
+@app.get("/test")
+async def test_endpoint():
+    return {
+        "message": "Backend is working! Database connection is the issue.",
+        "frontend_connection": "This proves your Vercel frontend can reach the Railway backend",
+        "timestamp": datetime.now().timestamp()
+    }
+
 # User endpoints
 @app.post("/users/register", response_model=UserResponse)
 async def register_user(user: UserCreate, db: Session = Depends(get_db)):
