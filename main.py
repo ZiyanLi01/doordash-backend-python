@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
+from sqlalchemy import text
 from typing import List, Optional
 import os
 import jwt
@@ -84,7 +85,7 @@ async def health_check():
     db_status = "UNKNOWN"
     try:
         db = SessionLocal()
-        db.execute("SELECT 1")
+        db.execute(text("SELECT 1"))
         db.close()
         db_status = "UP"
     except Exception as e:
