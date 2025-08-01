@@ -9,7 +9,7 @@ load_dotenv()
 # Database URL from environment variable or default to Supabase
 DATABASE_URL = os.getenv(
     "SUPABASE_DB_URL", 
-    "postgresql://postgres:3v6-U.sbMnYB@3D@db.fbqinbkfgckofqokgevu.supabase.co:5432/postgres?sslmode=require"
+    "postgresql://postgres:3v6-U.sbMnYB%403D@db.fbqinbkfgckofqokgevu.supabase.co:5432/postgres?sslmode=require"
 )
 
 engine = create_engine(DATABASE_URL)

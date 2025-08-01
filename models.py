@@ -27,6 +27,7 @@ class Restaurant(Base):
     rating = Column(Float, default=0.0)
     delivery_fee = Column(Float, default=0.0)
     minimum_order = Column(Float, default=0.0)
+    image_url = Column(String)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())

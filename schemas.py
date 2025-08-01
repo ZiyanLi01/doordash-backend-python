@@ -34,6 +34,7 @@ class RestaurantBase(BaseModel):
     rating: Optional[float] = 0.0
     delivery_fee: Optional[float] = 0.0
     minimum_order: Optional[float] = 0.0
+    image_url: Optional[str] = None
 
 class RestaurantCreate(RestaurantBase):
     pass
