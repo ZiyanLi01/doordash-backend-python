@@ -19,8 +19,13 @@ from schemas import (
     Token, TokenData
 )
 
-# Create database tables
-Base.metadata.create_all(bind=engine)
+# Create database tables (with error handling for deployment)
+try:
+    Base.metadata.create_all(bind=engine)
+    print("✅ Database tables created successfully")
+except Exception as e:
+    print(f"⚠️  Warning: Could not create database tables on startup: {e}")
+    print("   This is normal during deployment if database is not yet available")
 
 app = FastAPI(
     title="Mini DoorDash Backend",
@@ -75,9 +80,20 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
 # Health check endpoint
 @app.get("/health")
 async def health_check():
+    # Check database connection
+    db_status = "UNKNOWN"
+    try:
+        db = SessionLocal()
+        db.execute("SELECT 1")
+        db.close()
+        db_status = "UP"
+    except Exception as e:
+        db_status = f"DOWN: {str(e)[:100]}"
+    
     return {
         "status": "UP",
         "service": "Mini DoorDash Backend",
+        "database": db_status,
         "timestamp": datetime.now().timestamp(),
         "version": "1.0.0",
         "environment": os.getenv("ENVIRONMENT", "development")
