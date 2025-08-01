@@ -121,7 +121,7 @@ async def root():
 @app.get("/test")
 async def test_endpoint():
     return {
-        "message": "Backend is working! Database connection is the issue.",
+        "message": "Backend is working! Database connection should be fixed now.",
         "frontend_connection": "This proves your Vercel frontend can reach the Railway backend",
         "timestamp": datetime.now().timestamp()
     }
