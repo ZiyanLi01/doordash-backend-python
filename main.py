@@ -28,6 +28,16 @@ except Exception as e:
     print(f"⚠️  Warning: Could not create database tables on startup: {e}")
     print("   This is normal during deployment if database is not yet available")
 
+# Test database connection
+try:
+    db = SessionLocal()
+    db.execute(text("SELECT 1"))
+    db.close()
+    print("✅ Database connection test successful")
+except Exception as e:
+    print(f"⚠️  Warning: Database connection test failed: {e}")
+    print("   The app will start but database operations will fail")
+
 app = FastAPI(
     title="Mini DoorDash Backend",
     description="FastAPI backend for Mini DoorDash application",
@@ -143,19 +153,26 @@ async def register_user(user: UserCreate, db: Session = Depends(get_db)):
 
 @app.post("/users/login", response_model=Token)
 async def login_user(user_credentials: UserLogin, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.username == user_credentials.username).first()
-    if not user or not verify_password(user_credentials.password, user.hashed_password):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
+    try:
+        user = db.query(User).filter(User.username == user_credentials.username).first()
+        if not user or not verify_password(user_credentials.password, user.hashed_password):
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Incorrect username or password",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token = create_access_token(
+            data={"sub": user.username}, expires_delta=access_token_expires
         )
-    
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
-    )
-    return {"access_token": access_token, "token_type": "bearer"}
+        return {"access_token": access_token, "token_type": "bearer"}
+    except Exception as e:
+        print(f"Login error: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Database error: {str(e)}"
+        )
 
 @app.get("/users/check-username/{username}")
 async def check_username(username: str, db: Session = Depends(get_db)):
