@@ -10,7 +10,7 @@ from passlib.context import CryptContext
 from pydantic import BaseModel
 import uvicorn
 
-from database import get_db, engine
+from database import get_db, engine, SessionLocal
 from models import Base, User, Restaurant, MenuItem
 from schemas import (
     UserCreate, UserLogin, UserResponse, 
