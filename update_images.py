@@ -27,10 +27,13 @@ if __name__ == "__main__":
     update_menu_item_image("Pepperoni Pizza", "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=300&fit=crop")
     
     # Update Garlic Bread image
-    update_menu_item_image("Garlic Bread", "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop")
+    update_menu_item_image("Garlic Bread", "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=300&fit=crop")
     
     # Update Tempura Shrimp image
-    update_menu_item_image("Tempura Shrimp", "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400&h=300&fit=crop")
+    update_menu_item_image("Tempura Shrimp", "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?w=400&h=300&fit=crop")
+    
+    # Update Salmon Nigiri image
+    update_menu_item_image("Salmon Nigiri", "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400&h=300&fit=crop")
     
     # Update Onion Rings image
     update_menu_item_image("Onion Rings", "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=300&fit=crop")
